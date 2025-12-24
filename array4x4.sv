@@ -49,7 +49,7 @@ module array4x4 #(
                     // 之前为 a_in[i] 和 b_in[j]，已修正为元素级连接
                     .a_in       (a_in[i][j]),
                     .b_in       (b_in[i][j]),
-                    
+
                     .acc_in     (acc_in[i][j]),
                     .result_out (result_out[i][j])
                 );

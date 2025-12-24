@@ -77,30 +77,40 @@ module reduction_accumulator #(
     // ----------------------------------------------------------
     logic signed [ACC_WIDTH-1:0] acc_vec [TILE_SIZE-1:0];
     logic valid_reg;
+    logic suppress_valid; // 清零后屏蔽本 tile 剩余拍的 valid
 
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             for (int j = 0; j < TILE_SIZE; j++)
                 acc_vec[j] <= '0;
             valid_reg <= 1'b0;
+            suppress_valid <= 1'b0;
         end
         else if (clear_q) begin
+            // 清零拍不输出有效结果
             for (int j = 0; j < TILE_SIZE; j++)
                 acc_vec[j] <= '0;
-            valid_reg <= 1'b1;
+            valid_reg <= 1'b0;
+            suppress_valid <= 1'b1;
         end
         else if (valid_q) begin
-            if (mac_mode_q) begin
-                for (int j = 0; j < TILE_SIZE; j++)
-                    acc_vec[j] <= acc_vec[j] + col_sum_q[j];
+            if (!suppress_valid) begin
+                if (mac_mode_q) begin
+                    for (int j = 0; j < TILE_SIZE; j++)
+                        acc_vec[j] <= acc_vec[j] + col_sum_q[j];
+                end else begin
+                    for (int j = 0; j < TILE_SIZE; j++)
+                        acc_vec[j] <= col_sum_q[j];
+                end
+                valid_reg <= 1'b1;
             end else begin
-                for (int j = 0; j < TILE_SIZE; j++)
-                    acc_vec[j] <= col_sum_q[j];
+                valid_reg <= 1'b0;
             end
-            valid_reg <= 1'b1;
         end
         else begin
             valid_reg <= 1'b0;
+            if (!valid_q)
+                suppress_valid <= 1'b0; // 等待一个空拍解除屏蔽，进入下一个 tile
         end
     end
 

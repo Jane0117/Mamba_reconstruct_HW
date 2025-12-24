@@ -71,14 +71,18 @@ module slim_mac_mem_controller_combined_dp #(
         end
     end
     // ==========================================================
-    // 1️⃣ WBUF pipeline stage  (only DEPTH changed)
-    // ==========================================================
+// 1️⃣ WBUF pipeline stage  (only DEPTH changed)
+// ==========================================================
 
     logic [3:0][$clog2(N_BANK)-1:0] bank_sel, bank_sel_reg;
     logic [3:0][WADDR_W-1:0]         addr_sel, addr_sel_reg;
     logic [3:0]                     en_sel,   en_sel_reg;
     logic [3:0]                     port_sel, port_sel_reg;
     logic [3:0][DATA_W-1:0]         w_data, w_data_reg;
+    // 打拍后的计数与 phase，降低扇出
+    logic [15:0]                    tile_cnt_d;
+    logic [1:0]                     phase_reg;
+    //logic [3:0]                     en_sel_fall;
 
     // per-bank address counter
     logic [WADDR_W-1:0] addr_bank_cnt [N_BANK];
@@ -86,15 +90,10 @@ module slim_mac_mem_controller_combined_dp #(
     logic [N_BANK-1:0] bank_hit_mask_comb;
     logic [N_BANK-1:0] bank_hit_mask_comb_next;
 
-    // ------- NEW: bank mapping remains unchanged -------
-    logic [1:0] phase;
-    assign phase = tile_cnt % 3;
-
-
     always_comb begin
         logic [2:0] bank_x, bank_y;
 
-        case (phase)
+        case (phase_reg)
             0: begin bank_x=0; bank_y=3; end
             1: begin bank_x=1; bank_y=4; end
             default: begin bank_x=2; bank_y=5; end
@@ -115,11 +114,13 @@ module slim_mac_mem_controller_combined_dp #(
         port_sel[2] = 1'b1;
         port_sel[3] = 1'b1;
 
-        // 每个 tile 内按 tile_cnt 渐进且限定 16 拍窗口：0~15,1~16,2~17,3~18
-        en_sel[0] = (state == RUN_PIPELINE) && (tile_cnt < 18);
-        en_sel[1] = (state == RUN_PIPELINE) && (tile_cnt >= 1) && (tile_cnt < 19);
-        en_sel[2] = (state == RUN_PIPELINE) && (tile_cnt >= 2) && (tile_cnt < 20);
-        en_sel[3] = (state == RUN_PIPELINE) && (tile_cnt >= 3) && (tile_cnt < 21);
+        // 每个 tile 内按 tile_cnt_d 渐进且限定 16 拍窗口：0~15,1~16,2~17,3~18
+        en_sel[0] = (state == RUN_PIPELINE) && (tile_cnt_d < 18);
+        en_sel[1] = (state == RUN_PIPELINE) && (tile_cnt_d >= 1) && (tile_cnt_d < 19);
+        en_sel[2] = (state == RUN_PIPELINE) && (tile_cnt_d >= 2) && (tile_cnt_d < 20);
+        en_sel[3] = (state == RUN_PIPELINE) && (tile_cnt_d >= 3) && (tile_cnt_d < 21);
+
+        //en_sel_fall = en_sel_reg & ~en_sel; // 窗口结束时清零寄存器
 
     end
 
@@ -463,7 +464,8 @@ module slim_mac_mem_controller_combined_dp #(
             //     if (!valid_out && valid_out_q && m_axis_TREADY) next_state = IDLE;
             // end
             WAIT_DONE: begin
-                m_axis_TVALID = (!valid_out && valid_out_q);
+                // 拉高上一拍的有效标志，保证 reduced_vec 尚未被清零时握手
+                m_axis_TVALID = (!valid_out &&valid_out_q);
                 if (m_axis_TVALID && !m_axis_TREADY)
                     next_state = WAIT_DONE; // 保持等待
                 else if (m_axis_TVALID && m_axis_TREADY)
@@ -481,6 +483,8 @@ module slim_mac_mem_controller_combined_dp #(
             tile_cnt_for_xt <= 0;
             valid_out_q <= 1'b0;
             run_pipeline_d <= 1'b0;
+            tile_cnt_d      <= 16'd0;
+            phase_reg       <= 2'd0;
         end else begin
             state <= next_state;
             valid_out_q <= valid_out;
@@ -491,16 +495,32 @@ module slim_mac_mem_controller_combined_dp #(
                     // tile 尾声预复位计数，便于下一轮 RUN 重新阶梯开启
                     tile_cnt        <= 16'd0;
                     tile_cnt_for_xt <= 16'd0;
+                    tile_cnt_d      <= 16'd0;
+                    phase_reg       <= 2'd0;
                 end else begin
-                    tile_cnt        <= tile_cnt + 1;
-                    tile_cnt_for_xt <= tile_cnt_for_xt + 1;
+                    tile_cnt        <= tile_cnt + 16'd1;
+                    tile_cnt_for_xt <= tile_cnt_for_xt + 16'd1;
+                    tile_cnt_d      <= tile_cnt + 16'd1;
+
+                    // -----------------------------
+                    // FIX: phase_reg 0/1/2 循环，不用%3
+                    // -----------------------------
+                    if (phase_reg == 2'd2)
+                        phase_reg <= 2'd0;
+                    else
+                        phase_reg <= phase_reg + 2'd1;
                 end
             end else if (state == IDLE) begin
                 tile_cnt        <= 16'd0;
                 tile_cnt_for_xt <= 16'd0;
+                tile_cnt_d      <= 16'd0;
+                phase_reg       <= 2'd0;
             end else begin
+                // WAIT_DONE：保持
                 tile_cnt        <= tile_cnt;
                 tile_cnt_for_xt <= tile_cnt_for_xt;
+                tile_cnt_d      <= tile_cnt_d;
+                phase_reg       <= phase_reg;
             end
         end
     end
