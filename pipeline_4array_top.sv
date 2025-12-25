@@ -159,17 +159,15 @@ module pipeline_4array_top #(
             done_tile <= 1'b0;
         end
         else if (is_mac_mode) begin
-            if (valid_out) begin//前4拍还没出结果，计数器应该与结果同步
-                if (col_cnt == COL_BLOCKS - 1) begin
-                    col_cnt   <= '0;
-                    done_tile <= 1'b1;   // 每个 tile 完成时拉高一拍
-                end
-                else begin
-                    col_cnt   <= col_cnt + 1;
-                    done_tile <= 1'b0;
-                end
-            end
-            else begin
+            // 以 valid_out 为计数基准，遇到空拍立即重置，避免跨 tile 累计
+            if (!valid_out) begin
+                col_cnt   <= '0;
+                done_tile <= 1'b0;
+            end else if (col_cnt == COL_BLOCKS - 1) begin
+                col_cnt   <= '0;
+                done_tile <= 1'b1;   // 每个 tile 完成时拉高一拍
+            end else begin
+                col_cnt   <= col_cnt + 1;
                 done_tile <= 1'b0;
             end
         end
