@@ -29,7 +29,8 @@ module top_mac_plus_bias #(
 
     // Bias params
     parameter int D          = 256,
-    parameter int PIPE_LAT   = 2
+    // bias_add_regslice_ip 仿真测得总延迟 4 拍（ROM+对齐寄存+输出保持）
+    parameter int PIPE_LAT   = 4
 )(
     input  logic clk,
     input  logic rst_n,

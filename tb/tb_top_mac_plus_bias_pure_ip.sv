@@ -28,7 +28,8 @@ module tb_top_mac_plus_bias_pure_ip;
     localparam int XT_ADDR_W  = 6;
 
     localparam int D          = 256;
-    localparam int PIPE_LAT   = 2;
+    // 实测 bias 链路总延迟为 4 拍（ROM + 对齐寄存 + 输出保持）
+    localparam int PIPE_LAT   = 4;
 
     // ---------------- DUT ports ----------------
     logic clk, rst_n;
@@ -90,6 +91,18 @@ module tb_top_mac_plus_bias_pure_ip;
     logic [63:0] word;
 
     initial begin
+        // 初始化中间变量，避免波形前期显示 X
+        b          = 0;
+        addr       = 0;
+        w          = 0;
+        tile_id    = 0;
+        element_id = 0;
+        value      = 0;
+        line       = '0;
+        a          = 0;
+        base       = 0;
+        word       = '0;
+
         #5;
 
         // ---------------- WBUF init ----------------
@@ -131,9 +144,11 @@ module tb_top_mac_plus_bias_pure_ip;
                 16'(1000 + base + 0)
             };
 
-            // !!! Uncomment ONE that matches your IP sim model hierarchy !!!
+            // !!! Choose the hierarchy that matches your IP sim model !!!
+            // 这里选择 bias_add_regslice_ip 内建的仿真 mem_sim
+            u_top.u_bias_add.mem_sim[a] = word;
+            // 其他可能的层次（保留注释以便切换）:
             // u_top.u_bias_add.u_bias_rom.mem[a] = word;
-            // u_top.u_bias_add.u_bias_rom.mem_sim[a] = word;
             // u_top.u_bias_add.u_bias_rom.ram[a] = word;
             // u_top.u_bias_add.u_bias_rom.U0.mem[a] = word;
         end

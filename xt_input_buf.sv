@@ -10,6 +10,7 @@ module xt_input_buf #(
     parameter int TILE_SIZE = 4  // Each read outputs 4 elements
 )(
     input  logic                     clk,
+    input  logic                     rst_n,
     input  logic                     en,        // Enable from controller
     input  logic [ADDR_W-1:0]        addr,      // Address from controller
     output logic signed [DATA_W-1:0] dout_vec [TILE_SIZE-1:0] // ✅ 4×16-bit signed unpacked output
@@ -29,16 +30,22 @@ module xt_input_buf #(
         .douta (rom_dout)
     );
 `else
-    // 行为仿真模型：公开 mem_sim 供 TB 初始化，读出打一拍
+    // 行为仿真模型：公开 mem_sim 供 TB 初始化，读出总延迟 2 拍（与 IP 对齐）
     localparam int XT_DEPTH = (1 << ADDR_W);
     logic [63:0] mem_sim [XT_DEPTH];
+    logic [63:0] rom_dout_d1;
     // 初始化 mem，避免未写地址为 X；rom_dout 由 always_ff 唯一驱动
     initial begin
         for (int i = 0; i < XT_DEPTH; i++) mem_sim[i] = '0;
     end
-    always_ff @(posedge clk) begin
-        if (en) begin
-            rom_dout <= mem_sim[addr];
+    always_ff @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            rom_dout_d1 <= '0;
+            rom_dout    <= '0;
+        end else begin
+            rom_dout    <= rom_dout_d1; // stage2
+            if (en)
+                rom_dout_d1 <= mem_sim[addr]; // stage1
         end
     end
 `endif

@@ -75,6 +75,7 @@ module bias_add_regslice_ip_A #(
     logic [ADDR_W-1:0] bias_addr;
     logic [63:0]       bias64;
 
+`ifdef SYNTHESIS
     // NOTE: If your generated IP has different port names, edit here.
     bias_ROM u_bias_rom (
         .clka  (clk),
@@ -82,6 +83,26 @@ module bias_add_regslice_ip_A #(
         .addra (bias_addr),
         .douta (bias64)
     );
+`else
+    // 仿真行为版 ROM：公开 mem_sim 供 TB 初始化，读出总延迟 2 拍（与 IP 一致）
+    logic [63:0] mem_sim [TILE_DEPTH];
+    logic [63:0] bias64_d1;
+    initial begin
+        for (int i = 0; i < TILE_DEPTH; i++) mem_sim[i] = '0;
+    end
+    always_ff @(posedge clk or negedge rst_n) begin
+        if (!rst_n)
+            bias64_d1 <= '0;
+        else if (bias_en)
+            bias64_d1 <= mem_sim[bias_addr];
+    end
+    always_ff @(posedge clk or negedge rst_n) begin
+        if (!rst_n)
+            bias64 <= '0;
+        else
+            bias64 <= bias64_d1; // 再打一拍，总延迟=2
+    end
+`endif
 
     // Read request on accept_in
     always_ff @(posedge clk or negedge rst_n) begin

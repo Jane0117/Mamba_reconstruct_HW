@@ -73,33 +73,38 @@ module multi_bank_wbuf_dp #(
     endgenerate
 
 // ====================================================================
-//  Simulation Model — internal arrays, 1-cycle latency
+//  Simulation Model — internal arrays, 2-cycle latency (match BRAM reg)
 // ====================================================================
 `else
     logic [DATA_W-1:0] mem_sim [N_BANK][DEPTH];
     logic [DATA_W-1:0] doutA_r [N_BANK];
+    logic [DATA_W-1:0] doutA_q [N_BANK];
     logic [DATA_W-1:0] doutB_r [N_BANK];
+    logic [DATA_W-1:0] doutB_q [N_BANK];
 
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             for (int b = 0; b < N_BANK; b++) begin
-                doutA_r[b] <= '0;
-                doutB_r[b] <= '0;
+                doutA_r[b] <= '0; doutA_q[b] <= '0;
+                doutB_r[b] <= '0; doutB_q[b] <= '0;
             end
         end else begin
             for (int b = 0; b < N_BANK; b++) begin
                 if (enA_bank[b])
-                    doutA_r[b] <= mem_sim[b][addrA_bank[b]];
+                    doutA_r[b] <= mem_sim[b][addrA_bank[b]]; // stage 1
                 if (enB_bank[b])
-                    doutB_r[b] <= mem_sim[b][addrB_bank[b]];
+                    doutB_r[b] <= mem_sim[b][addrB_bank[b]]; // stage 1
+                // stage 2
+                doutA_q[b] <= doutA_r[b];
+                doutB_q[b] <= doutB_r[b];
             end
         end
     end
 
     always_comb begin
         for (int b = 0; b < N_BANK; b++) begin
-            doutA_bank[b] = doutA_r[b];
-            doutB_bank[b] = doutB_r[b];
+            doutA_bank[b] = doutA_q[b];
+            doutB_bank[b] = doutB_q[b];
         end
     end
 `endif
