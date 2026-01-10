@@ -42,6 +42,11 @@ module ew_update_vec4 #(
     logic [MEM_W-1:0]    s_dout_packed = '0; // init to avoid X in sim
     wire                  s_dout_unknown = (^s_dout_packed === 1'bx);
     wire [MEM_W-1:0]      s_dout_safe   = s_dout_unknown ? {MEM_W{1'b0}} : s_dout_packed;
+    
+    // 地址寄存
+    logic [S_ADDR_W-1:0] s_addr_r;
+    logic [S_ADDR_W-1:0] s_addr_w;
+
     // 最近一次写入的旁路，用于在 BRAM 尚未返回新数据时提供有效值
     logic                 last_wr_valid;
     logic [S_ADDR_W-1:0]  last_wr_addr;
@@ -49,9 +54,6 @@ module ew_update_vec4 #(
     wire [MEM_W-1:0]      s_dout_mux = (last_wr_valid && (last_wr_addr == s_addr_r)) ? last_wr_data : s_dout_safe;
     logic [MEM_W-1:0]    s_new_packed;
 
-    // 地址寄存
-    logic [S_ADDR_W-1:0] s_addr_r;
-    logic [S_ADDR_W-1:0] s_addr_w;
 
     // FSM: in -> RD1 -> RD2 -> CALC (2-cycle RAM read latency)
     typedef enum logic [2:0] {ST_IDLE, ST_RD1, ST_RD2, ST_CALC, ST_WAIT} st_t;
@@ -88,6 +90,7 @@ module ew_update_vec4 #(
             st <= ST_IDLE;
             s_addr_r <= '0;
             out_valid <= 1'b0;
+            calc_done <= 1'b0;
             for (int i=0;i<TILE_SIZE;i++) s_new_vec[i] <= '0;
             s_new_packed <= '0;
             for (int i=0;i<TILE_SIZE;i++) begin
@@ -143,15 +146,6 @@ module ew_update_vec4 #(
                 end
 
                 ST_WAIT: begin
-                    // 如果上一拍没赶上握手，这里再补一次（例如 EWA 输出晚一拍）
-                    if (ewa_v && ewa_r) begin
-                        for (int i=0;i<TILE_SIZE;i++) begin
-                            s_new_vec[i]           <= $signed(sum_y[i]);
-                            s_new_packed[i*W +: W] <= $signed(sum_y[i]);
-                        end
-                        out_valid <= 1'b1;
-                        calc_done <= 1'b1;
-                    end
                     // 写回在此拍进行（state_we=1），随后回到 IDLE
                     if (state_we) begin
                         last_wr_valid <= 1'b1;
