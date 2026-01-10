@@ -29,6 +29,9 @@ module xt_input_buf #(
         .dina  ('0),            // 🔒 写数据固定为0
         .douta (rom_dout)
     );
+    // rst_n 主要用于仿真模型，综合时保留一条“使用”路径以避免未用告警
+    (* keep = "true" *) logic rst_n_keep;
+    assign rst_n_keep = rst_n;
 `else
     // 行为仿真模型：公开 mem_sim 供 TB 初始化，读出总延迟 2 拍（与 IP 对齐）
     localparam int XT_DEPTH = (1 << ADDR_W);

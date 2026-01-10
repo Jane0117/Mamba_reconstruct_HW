@@ -42,7 +42,6 @@ module pe_unit_pipe #(
     logic signed [DATA_WIDTH:0]  ewa_sum;        // a+b
     logic signed [SHIFTED_WIDTH-1:0] ewa_shifted;// (a+b)<<FRAC_BITS
     logic signed [ACC_WIDTH-1:0] ewa_sum_aligned;// 对齐到 Q16.16
-    logic signed [ACC_WIDTH-1:0] opA, opB;       // adder输入
     logic signed [ACC_WIDTH-1:0] add_result;     // adder输出
     logic signed [ACC_WIDTH-1:0] result_reg;     // pipeline寄存器
     logic valid_reg; // 与 result_reg 同步的 valid 寄存器
