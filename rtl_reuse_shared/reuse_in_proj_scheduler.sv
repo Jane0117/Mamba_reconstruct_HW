@@ -75,6 +75,9 @@ module reuse_in_proj_scheduler #(
     logic [$clog2(ROW_GROUPS)-1:0] row_group_idx;
     logic [1:0]                    row_subtile_idx;
     logic [$clog2(ROW_TILES)-1:0]  row_tile_linear;
+    logic [$clog2(ROW_GROUPS)-1:0] write_row_group_idx;
+    logic [1:0]                    write_row_subtile_idx;
+    logic [$clog2(ROW_TILES)-1:0]  write_row_tile_linear;
     logic [$clog2(K_GROUPS+1)-1:0] data_cnt;
     logic [$clog2(TILE_CYCLE+2)-1:0] tile_cnt, tile_cnt_d;
     logic [1:0]                    drain_cnt;
@@ -127,7 +130,7 @@ module reuse_in_proj_scheduler #(
     logic signed [DATA_WIDTH-1:0] B1_mat_reg [TILE_SIZE-1:0][TILE_SIZE-1:0];
     logic signed [DATA_WIDTH-1:0] B2_mat_reg [TILE_SIZE-1:0][TILE_SIZE-1:0];
     logic signed [DATA_WIDTH-1:0] B3_mat_reg [TILE_SIZE-1:0][TILE_SIZE-1:0];
-    logic                         valid_in_d1;
+    logic                         valid_in_d1, valid_in_d2;
 
     logic                         seen_valid;
     logic signed [ACC_WIDTH-1:0]  final_vec [TILE_SIZE-1:0];
@@ -138,7 +141,8 @@ module reuse_in_proj_scheduler #(
     logic                         group_start;
     logic                         h_group_fire;
 
-    assign row_tile_linear = row_group_idx * ROWS_PER_GRP + row_subtile_idx;
+    assign row_tile_linear       = row_group_idx * ROWS_PER_GRP + row_subtile_idx;
+    assign write_row_tile_linear = write_row_group_idx * ROWS_PER_GRP + write_row_subtile_idx;
 
     reuse_inproj_weight_sram #(
         .N_BANK (N_BANK),
@@ -216,7 +220,7 @@ module reuse_in_proj_scheduler #(
     assign valid_in          = (state == RUN_PIPELINE) && (data_cnt < K_GROUPS);
     assign h_group_fire      = (state == RUN_PIPELINE) && (tile_cnt == 0) && valid_in;
     assign h_rd_en           = enable && h_group_fire;
-    assign fabric_valid_in   = valid_in_d1;
+    assign fabric_valid_in   = valid_in_d2;
     //assign group_start       = (state == RUN_PIPELINE) && (data_cnt == 0) && valid_in;
     assign group_start       = fetch_fire_d1 && (data_cnt == 1);
 
@@ -315,14 +319,14 @@ module reuse_in_proj_scheduler #(
             out_wr_data[i] = final_vec[i][DATA_WIDTH-1:0];
         end
 
-        if (row_tile_linear >= U_DEPTH)
-            out_wr_addr = row_tile_linear - U_DEPTH;
+        if (write_row_tile_linear >= U_DEPTH)
+            out_wr_addr = write_row_tile_linear - U_DEPTH;
         else
-            out_wr_addr = row_tile_linear[U_ADDR_W-1:0];
+            out_wr_addr = write_row_tile_linear[U_ADDR_W-1:0];
     end
 
-    assign u_wr_en = (state == WRITE) && (row_tile_linear < U_DEPTH);
-    assign z_wr_en = (state == WRITE) && (row_tile_linear >= U_DEPTH);
+    assign u_wr_en = (state == WRITE) && (write_row_tile_linear < U_DEPTH);
+    assign z_wr_en = (state == WRITE) && (write_row_tile_linear >= U_DEPTH);
 
     always_comb begin
         fabric_A0_mat = out_sel[0] ? A0_mat_reg : '{default:'0};
@@ -373,6 +377,8 @@ module reuse_in_proj_scheduler #(
             state         <= IDLE;
             row_group_idx <= '0;
             row_subtile_idx <= '0;
+            write_row_group_idx <= '0;
+            write_row_subtile_idx <= '0;
             data_cnt      <= '0;
             tile_cnt      <= '0;
             tile_cnt_d    <= '0;
@@ -408,6 +414,7 @@ module reuse_in_proj_scheduler #(
             B2_mat_reg    <= '{default:'0};
             B3_mat_reg    <= '{default:'0};
             valid_in_d1   <= 1'b0;
+            valid_in_d2   <= 1'b0;
             out_phase_cnt <= '0;
             out_phase_active <= 1'b0;
         end else begin
@@ -416,6 +423,7 @@ module reuse_in_proj_scheduler #(
             fetch_fire_d2 <= fetch_fire_d1;
             fetch_fire_d3 <= fetch_fire_d2;
             valid_in_d1   <= valid_in;
+            valid_in_d2   <= valid_in_d1;
             en_sel_reg    <= en_sel;
             tile_cnt_d    <= tile_cnt;
 
@@ -430,6 +438,8 @@ module reuse_in_proj_scheduler #(
                 data_cnt       <= '0;
                 tile_cnt       <= '0;
                 drain_cnt      <= 2'd3;
+                write_row_group_idx <= '0;
+                write_row_subtile_idx <= '0;
                 seen_valid     <= 1'b0;
                 en_sel_reg     <= '0;
                 phase_reg      <= '0;
@@ -490,6 +500,11 @@ module reuse_in_proj_scheduler #(
                         out_phase_cnt <= out_phase_cnt + 1'b1;
                     end
                 end
+            end
+
+            if (state == WAIT_DONE && next_state == WRITE) begin
+                write_row_group_idx   <= row_group_idx;
+                write_row_subtile_idx <= row_subtile_idx;
             end
 
             if (fetch_fire_d1) begin
