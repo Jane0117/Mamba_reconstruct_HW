@@ -80,11 +80,8 @@ module reuse_in_proj_scheduler #(
     logic [1:0]                    drain_cnt;
 
     logic                          h_rd_en;
-    logic [H_ADDR_W-1:0]           h_rd_addr0, h_rd_addr1, h_rd_addr2, h_rd_addr3;
-    logic signed [DATA_WIDTH-1:0]  h_rd_data0 [TILE_SIZE-1:0];
-    logic signed [DATA_WIDTH-1:0]  h_rd_data1 [TILE_SIZE-1:0];
-    logic signed [DATA_WIDTH-1:0]  h_rd_data2 [TILE_SIZE-1:0];
-    logic signed [DATA_WIDTH-1:0]  h_rd_data3 [TILE_SIZE-1:0];
+    logic [H_ADDR_W-1:0]           h_rd_addr;
+    logic signed [DATA_WIDTH-1:0]  h_rd_data [TILE_SIZE-1:0];
     logic                          fetch_fire_d1, fetch_fire_d2, fetch_fire_d3;
 
     logic [3:0][$clog2(N_BANK)-1:0] w_bank_sel;
@@ -139,6 +136,7 @@ module reuse_in_proj_scheduler #(
     logic signed [DATA_WIDTH-1:0] out_wr_data [TILE_SIZE-1:0];
     logic                         valid_in;
     logic                         group_start;
+    logic                         h_group_fire;
 
     assign row_tile_linear = row_group_idx * ROWS_PER_GRP + row_subtile_idx;
 
@@ -157,7 +155,7 @@ module reuse_in_proj_scheduler #(
         .dout_sel(w_dout_sel)
     );
 
-    reuse_ht_sram #(
+    reuse_ht_sram_sp #(
         .TILE_SIZE (TILE_SIZE),
         .DATA_WIDTH(DATA_WIDTH),
         .DEPTH     (H_DEPTH),
@@ -169,14 +167,8 @@ module reuse_in_proj_scheduler #(
         .wr_addr(h_wr_addr),
         .wr_data(h_wr_data),
         .rd_en(h_rd_en),
-        .rd_addr0(h_rd_addr0),
-        .rd_addr1(h_rd_addr1),
-        .rd_addr2(h_rd_addr2),
-        .rd_addr3(h_rd_addr3),
-        .rd_data0(h_rd_data0),
-        .rd_data1(h_rd_data1),
-        .rd_data2(h_rd_data2),
-        .rd_data3(h_rd_data3)
+        .rd_addr(h_rd_addr),
+        .rd_data(h_rd_data)
     );
 
     reuse_vec_out_sram #(
@@ -222,7 +214,8 @@ module reuse_in_proj_scheduler #(
     assign busy              = (state != IDLE && state != DONE_S);
     assign done              = (state == DONE_S);
     assign valid_in          = (state == RUN_PIPELINE) && (data_cnt < K_GROUPS);
-    assign h_rd_en           = enable && valid_in;
+    assign h_group_fire      = (state == RUN_PIPELINE) && (tile_cnt == 0) && valid_in;
+    assign h_rd_en           = enable && h_group_fire;
     assign fabric_valid_in   = valid_in_d1;
     //assign group_start       = (state == RUN_PIPELINE) && (data_cnt == 0) && valid_in;
     assign group_start       = fetch_fire_d1 && (data_cnt == 1);
@@ -231,22 +224,18 @@ module reuse_in_proj_scheduler #(
         int phys_base_idx;
         int tile_idx0, tile_idx1, tile_idx2, tile_idx3;
 
-        h_rd_addr0 = '0;
-        h_rd_addr1 = '0;
-        h_rd_addr2 = '0;
-        h_rd_addr3 = '0;
+        h_rd_addr  = '0;
         w_bank_sel = '0;
         w_addr_sel = '0;
         w_en_sel   = '0;
         w_port_sel = '0;
 
+        if (state == RUN_PIPELINE) begin
+            h_rd_addr = row_tile_linear[H_ADDR_W-1:0];
+        end
+
         if (valid_in) begin
             phys_base_idx = data_cnt * 4;
-
-            h_rd_addr0 = phys_base_idx + 0;
-            h_rd_addr1 = phys_base_idx + 1;
-            h_rd_addr2 = phys_base_idx + 2;
-            h_rd_addr3 = phys_base_idx + 3;
 
             tile_idx0 = row_tile_linear * PHYS_K_BLOCKS + phys_base_idx + 0;
             tile_idx1 = row_tile_linear * PHYS_K_BLOCKS + phys_base_idx + 1;
@@ -299,10 +288,10 @@ module reuse_in_proj_scheduler #(
             cur_A3[i][3] = w_dout_sel[3][(i*TILE_SIZE+3)*DATA_WIDTH +: DATA_WIDTH];
 
             for (int j = 0; j < TILE_SIZE; j++) begin
-                cur_B0[i][j] = h_rd_data0[j];
-                cur_B1[i][j] = h_rd_data1[j];
-                cur_B2[i][j] = h_rd_data2[j];
-                cur_B3[i][j] = h_rd_data3[j];
+                cur_B0[i][j] = h_rd_data[j];
+                cur_B1[i][j] = h_rd_data[j];
+                cur_B2[i][j] = h_rd_data[j];
+                cur_B3[i][j] = h_rd_data[j];
             end
         end
     end
