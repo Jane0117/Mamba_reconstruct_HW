@@ -168,6 +168,7 @@ module tb_reuse_mamba_block_top_inproj_to_outproj;
     logic [DATA_W-1:0] line_i;
     int tile_id_i;
     int row_tile_i;
+    int col_tile_i;
     int val_i;
     begin
       for (int b = 0; b < N_BANK; b++) begin
@@ -175,8 +176,9 @@ module tb_reuse_mamba_block_top_inproj_to_outproj;
           line_i = '0;
           tile_id_i = b + addr * N_BANK;
           row_tile_i = tile_id_i / 32;
+          col_tile_i = tile_id_i % 32;
           for (int r = 0; r < TILE_SIZE; r++) begin
-            val_i = row_tile_i * TILE_SIZE + r + 1;
+            val_i = (row_tile_i * TILE_SIZE + r + 1) * (col_tile_i + 1);
             for (int c = 0; c < TILE_SIZE; c++)
               line_i[(r*TILE_SIZE+c)*DATA_WIDTH +: DATA_WIDTH] = val_i[DATA_WIDTH-1:0];
           end
@@ -190,6 +192,7 @@ module tb_reuse_mamba_block_top_inproj_to_outproj;
     logic [DATA_W-1:0] line_i;
     int tile_id_i;
     int row_tile_i;
+    int col_tile_i;
     int val_i;
     begin
       for (int b = 0; b < N_BANK; b++) begin
@@ -197,9 +200,12 @@ module tb_reuse_mamba_block_top_inproj_to_outproj;
           line_i = '0;
           tile_id_i = b + addr * N_BANK;
           row_tile_i = tile_id_i / 64;
-          val_i = row_tile_i + 1;
-          for (int w = 0; w < 16; w++)
-            line_i[w*DATA_WIDTH +: DATA_WIDTH] = val_i[DATA_WIDTH-1:0];
+          col_tile_i = tile_id_i % 64;
+          for (int r = 0; r < TILE_SIZE; r++) begin
+            val_i = (row_tile_i * TILE_SIZE + r + 1) * (col_tile_i + 1);
+            for (int c = 0; c < TILE_SIZE; c++)
+              line_i[(r*TILE_SIZE+c)*DATA_WIDTH +: DATA_WIDTH] = val_i[DATA_WIDTH-1:0];
+          end
           dut.u_out_proj.u_w_sram.u_weight.mem_sim[b][addr] = line_i;
         end
       end
@@ -228,8 +234,15 @@ module tb_reuse_mamba_block_top_inproj_to_outproj;
       input int lane_idx
   );
     int value_i;
+    int base_i;
+    int blk_sum_i;
     begin
-      value_i = 4 * H_SUM * (row_tile_idx * TILE_SIZE + lane_idx + 1);
+      value_i = 0;
+      base_i = row_tile_idx * TILE_SIZE + lane_idx + 1;
+      for (int blk = 0; blk < 32; blk++) begin
+        blk_sum_i = (blk * 4 + 1) + (blk * 4 + 2) + (blk * 4 + 3) + (blk * 4 + 4);
+        value_i += 4 * base_i * (blk + 1) * blk_sum_i;
+      end
       expected_u_lane_val = value_i[DATA_WIDTH-1:0];
     end
   endfunction
@@ -265,10 +278,7 @@ module tb_reuse_mamba_block_top_inproj_to_outproj;
     end
   endtask
 
-  int p_req_addr0_q[$];
-  int p_req_addr1_q[$];
-  int p_req_addr2_q[$];
-  int p_req_addr3_q[$];
+  int p_req_addr_q[$];
   int p_rd_checks;
   int p_rd_errors;
   int p_req_count;
@@ -276,66 +286,40 @@ module tb_reuse_mamba_block_top_inproj_to_outproj;
 
   always_ff @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
-      p_req_addr0_q.delete();
-      p_req_addr1_q.delete();
-      p_req_addr2_q.delete();
-      p_req_addr3_q.delete();
+      p_req_addr_q.delete();
       p_rd_checks <= 0;
       p_rd_errors <= 0;
       p_req_count <= 0;
       y_fire_count <= 0;
     end else begin
       if (dut.p_rd_en_out) begin
-        p_req_addr0_q.push_back(dut.p_rd_addr0_out);
-        p_req_addr1_q.push_back(dut.p_rd_addr1_out);
-        p_req_addr2_q.push_back(dut.p_rd_addr2_out);
-        p_req_addr3_q.push_back(dut.p_rd_addr3_out);
+        p_req_addr_q.push_back(dut.p_rd_addr_out);
         p_req_count <= p_req_count + 1;
       end
 
       if (dut.u_out_proj.fetch_fire_d1) begin
-        int exp_addr0, exp_addr1, exp_addr2, exp_addr3;
-        logic [TILE_SIZE*DATA_WIDTH-1:0] exp_pack0, exp_pack1, exp_pack2, exp_pack3;
+        int exp_addr;
+        logic [TILE_SIZE*DATA_WIDTH-1:0] exp_pack;
 
-        if (p_req_addr0_q.size() == 0 || p_req_addr1_q.size() == 0 ||
-            p_req_addr2_q.size() == 0 || p_req_addr3_q.size() == 0) begin
+        if (p_req_addr_q.size() == 0) begin
           p_rd_errors <= p_rd_errors + 1;
           $error("[%0t] out_proj fetch_fire_d1 with empty p queue", $time);
         end else begin
-          exp_addr0 = p_req_addr0_q.pop_front();
-          exp_addr1 = p_req_addr1_q.pop_front();
-          exp_addr2 = p_req_addr2_q.pop_front();
-          exp_addr3 = p_req_addr3_q.pop_front();
-          exp_pack0 = dut.u_p_sram.mem_sim[exp_addr0];
-          exp_pack1 = dut.u_p_sram.mem_sim[exp_addr1];
-          exp_pack2 = dut.u_p_sram.mem_sim[exp_addr2];
-          exp_pack3 = dut.u_p_sram.mem_sim[exp_addr3];
-          p_rd_checks <= p_rd_checks + 4;
+          exp_addr = p_req_addr_q.pop_front();
+          exp_pack = dut.u_p_sram.mem_sim[exp_addr];
+          p_rd_checks <= p_rd_checks + 1;
           for (int i = 0; i < TILE_SIZE; i++) begin
-            logic signed [DATA_WIDTH-1:0] exp_lane0, exp_lane1, exp_lane2, exp_lane3;
-            exp_lane0 = exp_pack0[i*DATA_WIDTH +: DATA_WIDTH];
-            exp_lane1 = exp_pack1[i*DATA_WIDTH +: DATA_WIDTH];
-            exp_lane2 = exp_pack2[i*DATA_WIDTH +: DATA_WIDTH];
-            exp_lane3 = exp_pack3[i*DATA_WIDTH +: DATA_WIDTH];
-            if (dut.p_rd_data0_out[i] !== exp_lane0) begin
+            logic signed [DATA_WIDTH-1:0] exp_lane;
+            exp_lane = exp_pack[i*DATA_WIDTH +: DATA_WIDTH];
+            if (dut.p_rd_data_out[i] !== exp_lane) begin
               p_rd_errors <= p_rd_errors + 1;
               $error("[%0t] p SRAM read mismatch addr=%0d lane=%0d got=%0d exp=%0d",
-                     $time, exp_addr0, i, $signed(dut.p_rd_data0_out[i]), $signed(exp_lane0));
+                     $time, exp_addr, i, $signed(dut.p_rd_data_out[i]), $signed(exp_lane));
             end
-            if (dut.p_rd_data1_out[i] !== exp_lane1) begin
+            if (dut.p_rd_addr_out !== exp_addr) begin
               p_rd_errors <= p_rd_errors + 1;
-              $error("[%0t] p SRAM read mismatch addr=%0d lane=%0d got=%0d exp=%0d",
-                     $time, exp_addr1, i, $signed(dut.p_rd_data1_out[i]), $signed(exp_lane1));
-            end
-            if (dut.p_rd_data2_out[i] !== exp_lane2) begin
-              p_rd_errors <= p_rd_errors + 1;
-              $error("[%0t] p SRAM read mismatch addr=%0d lane=%0d got=%0d exp=%0d",
-                     $time, exp_addr2, i, $signed(dut.p_rd_data2_out[i]), $signed(exp_lane2));
-            end
-            if (dut.p_rd_data3_out[i] !== exp_lane3) begin
-              p_rd_errors <= p_rd_errors + 1;
-              $error("[%0t] p SRAM read mismatch addr=%0d lane=%0d got=%0d exp=%0d",
-                     $time, exp_addr3, i, $signed(dut.p_rd_data3_out[i]), $signed(exp_lane3));
+              $error("[%0t] out_proj p address mismatch got=%0d exp=%0d",
+                     $time, dut.p_rd_addr_out, exp_addr);
             end
           end
         end
@@ -346,32 +330,30 @@ module tb_reuse_mamba_block_top_inproj_to_outproj;
     end
   end
 
-  function automatic logic signed [DATA_WIDTH-1:0] expected_y_tile_val(
+  function automatic logic signed [DATA_WIDTH-1:0] expected_y_lane_val(
       input integer row_tile_idx,
+      input integer lane_idx,
       input integer sum_p
   );
     integer value_i;
     begin
-      value_i = 4 * (row_tile_idx + 1) * sum_p;
-      expected_y_tile_val = value_i[DATA_WIDTH-1:0];
+      value_i = (row_tile_idx * TILE_SIZE + lane_idx + 1) * 2080 * sum_p;
+      expected_y_lane_val = value_i[DATA_WIDTH-1:0];
     end
   endfunction
 
   task automatic check_outproj_y_mem();
-    integer sum_p;
     integer match_count;
     logic signed [DATA_WIDTH-1:0] exp_val;
     begin
-      sum_p = 0;
-      for (int addr = 0; addr < P_DEPTH; addr++) begin
-        for (int lane = 0; lane < TILE_SIZE; lane++)
-          sum_p += $signed(dut.u_p_sram.mem_sim[addr][lane*DATA_WIDTH +: DATA_WIDTH]);
-      end
-
       match_count = 0;
       for (int addr = 0; addr < Y_DEPTH; addr++) begin
-        exp_val = expected_y_tile_val(addr, sum_p);
+        int sum_p;
+        sum_p = 0;
+        for (int lane = 0; lane < TILE_SIZE; lane++)
+          sum_p += $signed(dut.u_p_sram.mem_sim[addr][lane*DATA_WIDTH +: DATA_WIDTH]);
         for (int lane = 0; lane < TILE_SIZE; lane++) begin
+          exp_val = expected_y_lane_val(addr, lane, sum_p);
           if ($signed(dut.u_out_proj.u_y_sram.mem_sim[addr][lane*DATA_WIDTH +: DATA_WIDTH]) !== exp_val) begin
             $error("[%0t] out_proj y mismatch addr=%0d lane=%0d got=%0d exp=%0d",
                    $time, addr, lane,
@@ -383,7 +365,7 @@ module tb_reuse_mamba_block_top_inproj_to_outproj;
         end
       end
 
-      $display("[%0t] MATCH out_proj y checked %0d lanes, sum_p=%0d", $time, match_count, sum_p);
+      $display("[%0t] MATCH out_proj y checked %0d lanes", $time, match_count);
     end
   endtask
 

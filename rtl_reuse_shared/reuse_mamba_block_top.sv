@@ -154,11 +154,8 @@ module reuse_mamba_block_top #(
     logic [5:0]                   p_wr_addr;
     logic signed [DATA_WIDTH-1:0] p_wr_data [TILE_SIZE-1:0];
     logic                         p_rd_en_out;
-    logic [5:0]                   p_rd_addr0_out, p_rd_addr1_out, p_rd_addr2_out, p_rd_addr3_out;
-    logic signed [DATA_WIDTH-1:0] p_rd_data0_out [TILE_SIZE-1:0];
-    logic signed [DATA_WIDTH-1:0] p_rd_data1_out [TILE_SIZE-1:0];
-    logic signed [DATA_WIDTH-1:0] p_rd_data2_out [TILE_SIZE-1:0];
-    logic signed [DATA_WIDTH-1:0] p_rd_data3_out [TILE_SIZE-1:0];
+    logic [5:0]                   p_rd_addr_out;
+    logic signed [DATA_WIDTH-1:0] p_rd_data_out [TILE_SIZE-1:0];
     logic                         outproj_enable_int;
     logic                         outproj_start_int;
 
@@ -324,14 +321,8 @@ module reuse_mamba_block_top #(
         .busy(outproj_busy),
         .done(),
         .p_rd_en(p_rd_en_out),
-        .p_rd_addr0(p_rd_addr0_out),
-        .p_rd_addr1(p_rd_addr1_out),
-        .p_rd_addr2(p_rd_addr2_out),
-        .p_rd_addr3(p_rd_addr3_out),
-        .p_rd_data0(p_rd_data0_out),
-        .p_rd_data1(p_rd_data1_out),
-        .p_rd_data2(p_rd_data2_out),
-        .p_rd_data3(p_rd_data3_out),
+        .p_rd_addr(p_rd_addr_out),
+        .p_rd_data(p_rd_data_out),
         .y_axis_TVALID(y_axis_TVALID),
         .y_axis_TREADY(y_axis_TREADY),
         .y_axis_TDATA(y_axis_TDATA),
@@ -370,7 +361,7 @@ module reuse_mamba_block_top #(
         .p_wr_data(p_wr_data)
     );
 
-    reuse_ht_sram #(
+    reuse_ht_sram_sp #(
         .TILE_SIZE (TILE_SIZE),
         .DATA_WIDTH(DATA_WIDTH),
         .DEPTH     (64),
@@ -382,14 +373,8 @@ module reuse_mamba_block_top #(
         .wr_addr(p_wr_addr),
         .wr_data(p_wr_data),
         .rd_en(p_rd_en_out),
-        .rd_addr0(p_rd_addr0_out),
-        .rd_addr1(p_rd_addr1_out),
-        .rd_addr2(p_rd_addr2_out),
-        .rd_addr3(p_rd_addr3_out),
-        .rd_data0(p_rd_data0_out),
-        .rd_data1(p_rd_data1_out),
-        .rd_data2(p_rd_data2_out),
-        .rd_data3(p_rd_data3_out)
+        .rd_addr(p_rd_addr_out),
+        .rd_data(p_rd_data_out)
     );
 
     reuse_mac_fabric_manager #(
