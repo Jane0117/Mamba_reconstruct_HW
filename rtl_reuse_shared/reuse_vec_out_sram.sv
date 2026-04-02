@@ -53,6 +53,12 @@ module reuse_vec_out_sram #(
 `else
     logic [TILE_SIZE*DATA_WIDTH-1:0] q;
     logic [TILE_SIZE*DATA_WIDTH-1:0] q2;
+    logic [TILE_SIZE*DATA_WIDTH-1:0] wr_pack;
+
+    always_comb begin
+        for (int i = 0; i < TILE_SIZE; i++)
+            wr_pack[i*DATA_WIDTH +: DATA_WIDTH] = wr_data[i];
+    end
 
     reuse_vec_out_sram_ip #(
         .DATA_W (TILE_SIZE*DATA_WIDTH),
@@ -61,7 +67,7 @@ module reuse_vec_out_sram #(
         .clk     (clk),
         .wr_en   (wr_en),
         .wr_addr (wr_addr),
-        .wr_data (wr_data),
+        .wr_data (wr_pack),
         .rd_en   (rd_en),
         .rd_addr (rd_addr),
         .rd_data (q),

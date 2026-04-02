@@ -59,6 +59,12 @@ module reuse_ht_sram #(
     end
 `else
     logic [TILE_SIZE*DATA_WIDTH-1:0] q0, q1, q2, q3;
+    logic [TILE_SIZE*DATA_WIDTH-1:0] wr_pack;
+
+    always_comb begin
+        for (int i = 0; i < TILE_SIZE; i++)
+            wr_pack[i*DATA_WIDTH +: DATA_WIDTH] = wr_data[i];
+    end
 
     reuse_ht_multi_copy_ip #(
         .DATA_W (TILE_SIZE*DATA_WIDTH),
@@ -67,7 +73,7 @@ module reuse_ht_sram #(
         .clk     (clk),
         .wr_en   (wr_en),
         .wr_addr (wr_addr),
-        .wr_data (wr_data),
+        .wr_data (wr_pack),
         .rd_en   (rd_en),
         .rd_addr0(rd_addr0),
         .rd_addr1(rd_addr1),
