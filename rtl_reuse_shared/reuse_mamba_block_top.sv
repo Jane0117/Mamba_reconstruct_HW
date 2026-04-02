@@ -145,6 +145,16 @@ module reuse_mamba_block_top #(
     logic                         dt_u_rd_en;
     logic [5:0]                   dt_u_rd_addr;
     logic signed [DATA_WIDTH-1:0] dt_u_rd_data [TILE_SIZE-1:0];
+    logic                         z_gate_rd_en;
+    logic [5:0]                   z_gate_rd_addr;
+    logic signed [DATA_WIDTH-1:0] z_gate_rd_data [TILE_SIZE-1:0];
+    logic                         z_stream_busy, z_stream_done;
+    logic                         z_stream_valid, z_stream_ready;
+    logic signed [DATA_WIDTH-1:0] z_stream_vec [TILE_SIZE-1:0];
+    logic                         silu_valid, silu_ready;
+    logic signed [DATA_WIDTH-1:0] silu_vec [TILE_SIZE-1:0];
+    logic                         g_axis_int_valid, g_axis_int_ready;
+    logic signed [DATA_WIDTH-1:0] g_axis_int_data [TILE_SIZE-1:0];
     logic                         ssm_p_valid;
     logic                         ssm_p_ready;
     logic signed [DATA_WIDTH-1:0] ssm_p_data [TILE_SIZE-1:0];
@@ -294,6 +304,9 @@ module reuse_mamba_block_top #(
         .z_rd_en(z_rd_en),
         .z_rd_addr(z_rd_addr),
         .z_rd_data(z_rd_data),
+        .z_gate_rd_en(z_gate_rd_en),
+        .z_gate_rd_addr(z_gate_rd_addr),
+        .z_gate_rd_data(z_gate_rd_data),
         .fabric_mode(in_mode),
         .fabric_col_blocks(in_col_blocks),
         .fabric_valid_in(in_valid_in),
@@ -377,6 +390,59 @@ module reuse_mamba_block_top #(
         .rd_data(p_rd_data_out)
     );
 
+    reuse_z_stream_reader #(
+        .TILE_SIZE (TILE_SIZE),
+        .DATA_WIDTH(DATA_WIDTH),
+        .Z_DEPTH   (64),
+        .Z_ADDR_W  (6)
+    ) u_z_reader (
+        .clk     (clk),
+        .rst_n   (rst_n),
+        .enable  (block_auto_mode),
+        .start   (inproj_done),
+        .busy    (z_stream_busy),
+        .done    (z_stream_done),
+        .z_rd_en (z_gate_rd_en),
+        .z_rd_addr(z_gate_rd_addr),
+        .z_rd_data(z_gate_rd_data),
+        .out_valid(z_stream_valid),
+        .out_ready(z_stream_ready),
+        .out_vec (z_stream_vec)
+    );
+
+    reuse_silu_vec4 #(
+        .TILE_SIZE (TILE_SIZE),
+        .DATA_WIDTH(DATA_WIDTH),
+        .FRAC_BITS (FRAC_BITS),
+        .ADDR_BITS (ADDR_BITS),
+        .LUT_FILE  (LUT_FILE)
+    ) u_silu (
+        .clk      (clk),
+        .rst_n    (rst_n),
+        .in_valid (z_stream_valid),
+        .in_ready (z_stream_ready),
+        .in_vec   (z_stream_vec),
+        .out_valid(silu_valid),
+        .out_ready(silu_ready),
+        .out_vec  (silu_vec)
+    );
+
+    always_comb begin
+        if (block_auto_mode) begin
+            g_axis_int_valid = silu_valid;
+            silu_ready       = g_axis_int_ready;
+            g_axis_TREADY    = 1'b0;
+            for (int i = 0; i < TILE_SIZE; i++)
+                g_axis_int_data[i] = silu_vec[i];
+        end else begin
+            g_axis_int_valid = g_axis_TVALID;
+            silu_ready       = 1'b0;
+            g_axis_TREADY    = g_axis_int_ready;
+            for (int i = 0; i < TILE_SIZE; i++)
+                g_axis_int_data[i] = g_axis_TDATA[i];
+        end
+    end
+
     reuse_mac_fabric_manager #(
         .TILE_SIZE (TILE_SIZE),
         .DATA_WIDTH(DATA_WIDTH),
@@ -447,9 +513,9 @@ module reuse_mamba_block_top #(
         .xt_v(xt_v),
         .xt_r_int(xt_r_int),
         .xt_d(xt_d),
-        .g_axis_TVALID(g_axis_TVALID),
-        .g_axis_TREADY(g_axis_TREADY),
-        .g_axis_TDATA(g_axis_TDATA),
+        .g_axis_TVALID(g_axis_int_valid),
+        .g_axis_TREADY(g_axis_int_ready),
+        .g_axis_TDATA(g_axis_int_data),
         .y_axis_TVALID(ssm_p_valid),
         .y_axis_TREADY(ssm_p_ready),
         .y_axis_TDATA(ssm_p_data)

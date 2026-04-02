@@ -12,6 +12,7 @@ module reuse_out_proj_scheduler_stub #(
     parameter int TILE_SIZE   = 4,
     parameter int DATA_WIDTH  = 16,
     parameter int ACC_WIDTH   = 32,
+    parameter int FRAC_BITS   = 8,
     parameter int N_BANK      = 6,
     parameter int WDEPTH      = 342,
     parameter int WADDR_W     = $clog2(WDEPTH),
@@ -263,7 +264,7 @@ module reuse_out_proj_scheduler_stub #(
 
     always_comb begin
         for (int i = 0; i < TILE_SIZE; i++) begin
-            y_wr_data[i] = final_vec[i][DATA_WIDTH-1:0];
+            y_wr_data[i] = final_vec[i] >>> FRAC_BITS;
         end
 
         y_wr_addr = write_row_tile_linear[Y_ADDR_W-1:0];

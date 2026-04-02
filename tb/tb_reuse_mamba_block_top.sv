@@ -218,15 +218,14 @@ module tb_reuse_mamba_block_top;
   );
     int value_i;
     int base_i;
-    int blk_sum_i;
+    int h_tile_idx;
+    int h_sum_i;
     begin
-      value_i = 0;
       base_i = row_tile_idx * TILE_SIZE + lane_idx + 1;
-      for (int blk = 0; blk < 32; blk++) begin
-        blk_sum_i = (blk * 4 + 1) + (blk * 4 + 2) + (blk * 4 + 3) + (blk * 4 + 4);
-        value_i += 4 * base_i * (blk + 1) * blk_sum_i;
-      end
-      expected_u_lane_val = value_i[DATA_WIDTH-1:0];
+      h_tile_idx = row_tile_idx % H_DEPTH;
+      h_sum_i = 16 * h_tile_idx + 10;
+      value_i = base_i * h_sum_i * 528;
+      expected_u_lane_val = $signed(value_i >>> FRAC_BITS);
     end
   endfunction
 

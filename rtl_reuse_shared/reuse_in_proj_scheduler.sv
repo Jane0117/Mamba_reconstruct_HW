@@ -11,6 +11,7 @@ module reuse_in_proj_scheduler #(
     parameter int TILE_SIZE   = 4,
     parameter int DATA_WIDTH  = 16,
     parameter int ACC_WIDTH   = 32,
+    parameter int FRAC_BITS   = 8,
     parameter int N_BANK      = 6,
     parameter int WDEPTH      = 683,
     parameter int WADDR_W     = $clog2(WDEPTH),
@@ -42,6 +43,9 @@ module reuse_in_proj_scheduler #(
     input  logic                          z_rd_en,
     input  logic [U_ADDR_W-1:0]           z_rd_addr,
     output logic signed [DATA_WIDTH-1:0]  z_rd_data [TILE_SIZE-1:0],
+    input  logic                          z_gate_rd_en,
+    input  logic [U_ADDR_W-1:0]           z_gate_rd_addr,
+    output logic signed [DATA_WIDTH-1:0]  z_gate_rd_data [TILE_SIZE-1:0],
 
     output logic [1:0]                    fabric_mode,
     output logic [6:0]                    fabric_col_blocks,
@@ -208,9 +212,9 @@ module reuse_in_proj_scheduler #(
         .rd_en(z_rd_en),
         .rd_addr(z_rd_addr),
         .rd_data(z_rd_data),
-        .rd2_en(1'b0),
-        .rd2_addr('0),
-        .rd2_data()
+        .rd2_en(z_gate_rd_en),
+        .rd2_addr(z_gate_rd_addr),
+        .rd2_data(z_gate_rd_data)
     );
 
     assign fabric_mode       = 2'b00;
@@ -316,7 +320,7 @@ module reuse_in_proj_scheduler #(
 
     always_comb begin
         for (int i = 0; i < TILE_SIZE; i++) begin
-            out_wr_data[i] = final_vec[i][DATA_WIDTH-1:0];
+            out_wr_data[i] = final_vec[i] >>> FRAC_BITS;
         end
 
         if (write_row_tile_linear >= U_DEPTH)
