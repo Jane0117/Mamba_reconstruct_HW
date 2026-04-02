@@ -1,0 +1,59 @@
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/axis_vec_join2.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module axis_vec_join2
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/bias_add_regslice_ip.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module bias_add_regslice_ip_A
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/ew_update_vec4.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ew_update_vec4
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/ewa_vec4.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ewa_vec4
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/ewm_gate_sbuf_vec4.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ewm_gate_sbuf_vec4
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/ewm_vec4.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ewm_vec4
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module pe_unit_pipe
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pulse_to_stream_adapter.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module pulse_to_stream_adapter
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/reuse_array4x4.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module reuse_array4x4
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/reuse_ht_sram.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module reuse_ht_sram
+INFO: [VRFC 10-311] analyzing module reuse_ht_sram_sp
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/reuse_in_proj_scheduler.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module reuse_in_proj_scheduler
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/reuse_inproj_weight_sram.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module reuse_inproj_weight_sram
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/reuse_mac_fabric_manager.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module reuse_mac_fabric_manager
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/reuse_mamba_block_top.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module reuse_mamba_block_top
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/reuse_out_proj_scheduler_stub.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module reuse_out_proj_scheduler_stub
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/reuse_outproj_multi_bank_wbuf_dp.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module reuse_outproj_multi_bank_wbuf_dp
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/reuse_outproj_weight_sram.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module reuse_outproj_weight_sram
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/reuse_pipeline_4array_top.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module reuse_pipeline_4array_top
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/reuse_pipeline_4array_with_reduction.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module reuse_pipeline_4array_with_reduction
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/reuse_pt_capture.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module reuse_pt_capture
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/reuse_reduction_accumulator.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module reuse_reduction_accumulator
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/reuse_shared_mac_fabric.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module reuse_shared_mac_fabric
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/reuse_ssm_core.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module reuse_ssm_core
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/reuse_ssm_dt_scheduler.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module reuse_ssm_dt_scheduler
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/reuse_vec_out_sram.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module reuse_vec_out_sram
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/sigmoid4_vec.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module sigmoid4_vec
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/slim_multi_bank_wbuf_dp.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module slim_multi_bank_wbuf_dp
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/vec_fifo_axis_ip.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module vec_fifo_axis_ip
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/Mamba/hardware_reconstruct/tb/tb_reuse_mamba_block_top.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module tb_reuse_mamba_block_top

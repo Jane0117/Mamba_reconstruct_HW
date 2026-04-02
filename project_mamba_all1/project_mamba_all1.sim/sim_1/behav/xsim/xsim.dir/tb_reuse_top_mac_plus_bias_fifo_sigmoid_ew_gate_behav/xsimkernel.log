@@ -1,0 +1,7 @@
+Running: xsim.dir/tb_reuse_top_mac_plus_bias_fifo_sigmoid_ew_gate_behav/xsimk.exe -simmode gui -wdb tb_reuse_top_mac_plus_bias_fifo_sigmoid_ew_gate_behav.wdb -simrunnum 0 -socket 54564
+Design successfully loaded
+Design Loading Memory Usage: 13108 KB (Peak: 13108 KB)
+Design Loading CPU Usage: 61 ms
+Simulation completed
+Simulation Memory Usage: 17288 KB (Peak: 17288 KB)
+Simulation CPU Usage: 765 ms

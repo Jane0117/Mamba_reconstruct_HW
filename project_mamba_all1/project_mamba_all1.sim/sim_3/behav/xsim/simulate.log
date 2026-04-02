@@ -1,0 +1,6 @@
+Time resolution is 1 ps
+[29000] init in_proj weight SRAM
+[29000] load h_t all-ones
+[10853000] MATCH reuse_in_proj_scheduler checked 512 lanes
+[10853000] PASS reuse_in_proj_scheduler basic GEMV
+$finish called at time : 10853 ns : File "D:/Mamba/hardware_reconstruct/tb/tb_reuse_in_proj_scheduler.sv" Line 272

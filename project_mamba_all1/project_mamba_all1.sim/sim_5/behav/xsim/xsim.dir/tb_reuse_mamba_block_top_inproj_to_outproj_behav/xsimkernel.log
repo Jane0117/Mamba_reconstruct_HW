@@ -1,0 +1,4 @@
+Running: xsim.dir/tb_reuse_mamba_block_top_inproj_to_outproj_behav/xsimk.exe -simmode gui -wdb tb_reuse_mamba_block_top_inproj_to_outproj_behav.wdb -simrunnum 0 -socket 53099
+Design successfully loaded
+Design Loading Memory Usage: 13272 KB (Peak: 13272 KB)
+Design Loading CPU Usage: 15 ms

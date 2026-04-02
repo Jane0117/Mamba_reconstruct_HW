@@ -1,0 +1,171 @@
+Vivado Simulator v2024.1
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+Running: F:/Xilinx/Vivado/2024.1/bin/unwrapped/win64.o/xelab.exe --incr --debug typical --relax --mt 2 -L xil_defaultlib -L blk_mem_gen_v8_4_8 -L fifo_generator_v13_2_10 -L uvm -L unisims_ver -L unimacro_ver -L secureip -L xpm --snapshot tb_reuse_mamba_block_top_behav xil_defaultlib.tb_reuse_mamba_block_top xil_defaultlib.glbl -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+Pass Through NonSizing Optimizer
+WARNING: [VRFC 10-3091] actual bit length 8 differs from formal bit length 1 for port 'wea' [D:/Mamba/hardware_reconstruct/rtl_reuse_shared/ew_update_vec4.sv:212]
+Completed static elaboration
+Starting simulation data flow analysis
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/reuse_in_proj_scheduler.sv" Line 14. Module reuse_in_proj_scheduler_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/reuse_inproj_weight_sram.sv" Line 8. Module reuse_inproj_weight_sram(ADDR_W=10) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/reuse_ht_sram.sv" Line 8. Module reuse_ht_sram(ADDR_W=5) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/reuse_mac_fabric_manager.sv" Line 11. Module reuse_mac_fabric_manager doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/reuse_array4x4.sv" Line 6. Module reuse_array4x4_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/reuse_array4x4.sv" Line 6. Module reuse_array4x4_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/reuse_array4x4.sv" Line 6. Module reuse_array4x4_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/reuse_array4x4.sv" Line 6. Module reuse_array4x4_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pulse_to_stream_adapter.sv" Line 15. Module pulse_to_stream_adapter doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/bias_add_regslice_ip.sv" Line 16. Module bias_add_regslice_ip_A(PIPE_LAT=4) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/axis_vec_join2.sv" Line 1. Module axis_vec_join2_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/ew_update_vec4.sv" Line 11. Module ew_update_vec4(S_ADDR_W=6) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/ewm_vec4.sv" Line 7. Module ewm_vec4(FRAC_BITS=8) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/ewm_vec4.sv" Line 7. Module ewm_vec4(FRAC_BITS=8) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/ewa_vec4.sv" Line 6. Module ewa_vec4 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/ewm_gate_sbuf_vec4.sv" Line 8. Module ewm_gate_sbuf_vec4 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/axis_vec_join2.sv" Line 1. Module axis_vec_join2_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/ewm_vec4.sv" Line 7. Module ewm_vec4(FRAC_BITS=8) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/reuse_in_proj_scheduler.sv" Line 14. Module reuse_in_proj_scheduler_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/reuse_inproj_weight_sram.sv" Line 8. Module reuse_inproj_weight_sram(ADDR_W=10) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/reuse_ht_sram.sv" Line 8. Module reuse_ht_sram(ADDR_W=5) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/reuse_mac_fabric_manager.sv" Line 11. Module reuse_mac_fabric_manager doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/reuse_array4x4.sv" Line 6. Module reuse_array4x4_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/Mamba/hardware_reconstruct/rtl_reuse_shared/pe_unit_pipe.sv" Line 16. Module pe_unit_pipe_default doesn't have a timescale but at least one module in design has a timescale.
+INFO: [Common 17-14] Message 'XSIM 43-4099' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling package std.standard
+Compiling package std.textio
+Compiling package ieee.std_logic_1164
+Compiling package ieee.std_logic_arith
+Compiling package ieee.std_logic_unsigned
+Compiling package synopsys.attributes
+Compiling package ieee.std_logic_misc
+Compiling package fifo_generator_v13_2_10.fifo_generator_v13_2_10_pkg
+Compiling package xpm.vcomponents
+Compiling package ieee.numeric_std
+Compiling package unisim.vcomponents
+Compiling package ieee.vital_timing
+Compiling package ieee.vital_primitives
+Compiling package unisim.vpkg
+Compiling module xil_defaultlib.slim_multi_bank_wbuf_dp(ADDR_W=1...
+Compiling architecture fifo36e2_v of entity unisim.FIFO36E2 [\FIFO36E2(clock_domains="COMMON"...]
+Compiling architecture amd of entity fifo_generator_v13_2_10.builtin_prim [\builtin_prim(c_din_width=64,c_d...]
+Compiling architecture amd of entity fifo_generator_v13_2_10.builtin_extdepth [\builtin_extdepth(c_family="8SER...]
+Compiling architecture amd of entity fifo_generator_v13_2_10.builtin_top [\builtin_top(c_family="8SERIES",...]
+Compiling architecture amd of entity fifo_generator_v13_2_10.input_blk [\input_blk(c_din_width=64,c_pktf...]
+Compiling architecture amd of entity fifo_generator_v13_2_10.output_blk [\output_blk(c_dout_width=64,c_pk...]
+Compiling architecture amd of entity fifo_generator_v13_2_10.fifo_generator_v13_2_10_builtin [\fifo_generator_v13_2_10_builtin...]
+Compiling architecture amd of entity fifo_generator_v13_2_10.fifo_generator_top [\fifo_generator_top(c_family="vi...]
+Compiling architecture amd of entity fifo_generator_v13_2_10.fifo_generator_v13_2_10_synth [\fifo_generator_v13_2_10_synth(c...]
+Compiling module xil_defaultlib.bias2sigmoid_fifo
+Compiling module xil_defaultlib.vec_fifo_axis_ip
+Compiling module xil_defaultlib.reuse_ssm_dt_scheduler(WADDR_W=1...
+Compiling module xil_defaultlib.reuse_inproj_weight_sram(ADDR_W=...
+Compiling module xil_defaultlib.reuse_ht_sram(ADDR_W=5)
+Compiling module xil_defaultlib.reuse_vec_out_sram(ADDR_W=6)
+Compiling module xil_defaultlib.reuse_in_proj_scheduler_default
+Compiling module xil_defaultlib.reuse_out_proj_scheduler_stub
+Compiling module xil_defaultlib.pe_unit_pipe_default
+Compiling module xil_defaultlib.reuse_array4x4_default
+Compiling module xil_defaultlib.reuse_pipeline_4array_top
+Compiling module xil_defaultlib.reuse_reduction_accumulator
+Compiling module xil_defaultlib.reuse_pipeline_4array_with_reduc...
+Compiling module xil_defaultlib.reuse_shared_mac_fabric
+Compiling module xil_defaultlib.reuse_mac_fabric_manager
+Compiling module xil_defaultlib.pulse_to_stream_adapter
+Compiling module xil_defaultlib.bias_add_regslice_ip_A(PIPE_LAT=...
+Compiling module xil_defaultlib.sigmoid4_vec_default
+Compiling module xil_defaultlib.axis_vec_join2_default
+Compiling module blk_mem_gen_v8_4_8.blk_mem_gen_v8_4_8_output_stage(...
+Compiling module blk_mem_gen_v8_4_8.blk_mem_gen_v8_4_8_softecc_outpu...
+Compiling module blk_mem_gen_v8_4_8.blk_mem_gen_v8_4_8_mem_module(C_...
+Compiling module blk_mem_gen_v8_4_8.blk_mem_axi_regs_fwd_v8_4(C_DATA...
+Compiling module blk_mem_gen_v8_4_8.blk_mem_gen_v8_4_8(C_FAMILY="zyn...
+Compiling module xil_defaultlib.s_buffer
+Compiling module xil_defaultlib.ewm_vec4(FRAC_BITS=8)
+Compiling module xil_defaultlib.ewa_vec4
+Compiling module xil_defaultlib.ew_update_vec4(S_ADDR_W=6)
+Compiling module xil_defaultlib.ewm_gate_sbuf_vec4
+Compiling module xil_defaultlib.reuse_ssm_core
+Compiling module xil_defaultlib.reuse_mamba_block_top(WADDR_W=10...
+Compiling module xil_defaultlib.tb_reuse_mamba_block_top
+Compiling module xil_defaultlib.glbl
+Built simulation snapshot tb_reuse_mamba_block_top_behav

@@ -1,0 +1,61 @@
+Time resolution is 1 ps
+Block Memory Generator module tb_reuse_top_mac_plus_bias_fifo_sigmoid_ew_gate.dut.u_ew.u_s_buffer.inst.native_mem_module.blk_mem_gen_v8_4_8_inst is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Note: Actual FIFO Depth = 513
+Time: 0 ps  Iteration: 0
+Note:  DEPTH = 512 WIDTH = 72 C_RD_PRIM_WIDTH = 72 C_RD_PRIM_DEPTH = 512 DEEP = 1 WIDE = 1
+Time: 0 ps  Iteration: 0
+Note: Actual FIFO Depth = 513
+Time: 0 ps  Iteration: 0
+Note:  DEPTH = 512 WIDTH = 72 C_RD_PRIM_WIDTH = 72 C_RD_PRIM_DEPTH = 512 DEEP = 1 WIDE = 1
+Time: 0 ps  Iteration: 0
+Note: Actual FIFO Depth = 513
+Time: 0 ps  Iteration: 0
+Note:  DEPTH = 512 WIDTH = 72 C_RD_PRIM_WIDTH = 72 C_RD_PRIM_DEPTH = 512 DEEP = 1 WIDE = 1
+Time: 0 ps  Iteration: 0
+[5000] init WBUF/XT for reuse hierarchy...
+[5000] init done
+[35000] Tile start accepted
+[101000] Tile start accepted
+[167000] Tile start accepted
+[327000] PASS reuse top basic gate outputs got_s=3 got_y=3
+$finish called at time : 327 ns : File "D:/Mamba/hardware_reconstruct/tb/tb_reuse_top_mac_plus_bias_fifo_sigmoid_ew_gate.sv" Line 287
+Block Memory Generator module tb_reuse_top_mac_plus_bias_fifo_sigmoid_ew_gate.dut.u_ew.u_s_buffer.inst.native_mem_module.blk_mem_gen_v8_4_8_inst is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Note: Actual FIFO Depth = 513
+Time: 0 ps  Iteration: 0
+Note:  DEPTH = 512 WIDTH = 72 C_RD_PRIM_WIDTH = 72 C_RD_PRIM_DEPTH = 512 DEEP = 1 WIDE = 1
+Time: 0 ps  Iteration: 0
+Note: Actual FIFO Depth = 513
+Time: 0 ps  Iteration: 0
+Note:  DEPTH = 512 WIDTH = 72 C_RD_PRIM_WIDTH = 72 C_RD_PRIM_DEPTH = 512 DEEP = 1 WIDE = 1
+Time: 0 ps  Iteration: 0
+Note: Actual FIFO Depth = 513
+Time: 0 ps  Iteration: 0
+Note:  DEPTH = 512 WIDTH = 72 C_RD_PRIM_WIDTH = 72 C_RD_PRIM_DEPTH = 512 DEEP = 1 WIDE = 1
+Time: 0 ps  Iteration: 0
+[5000] init WBUF/XT for reuse hierarchy...
+[5000] init done
+[35000] Tile start accepted
+[101000] Tile start accepted
+[167000] Tile start accepted
+[327000] PASS reuse top basic gate outputs got_s=3 got_y=3
+$finish called at time : 327 ns : File "D:/Mamba/hardware_reconstruct/tb/tb_reuse_top_mac_plus_bias_fifo_sigmoid_ew_gate.sv" Line 287
+Block Memory Generator module tb_reuse_top_mac_plus_bias_fifo_sigmoid_ew_gate.dut.u_ew.u_s_buffer.inst.native_mem_module.blk_mem_gen_v8_4_8_inst is using a behavioral model for simulation which will not precisely model memory collision behavior.
+Note: Actual FIFO Depth = 513
+Time: 0 ps  Iteration: 0
+Note:  DEPTH = 512 WIDTH = 72 C_RD_PRIM_WIDTH = 72 C_RD_PRIM_DEPTH = 512 DEEP = 1 WIDE = 1
+Time: 0 ps  Iteration: 0
+Note: Actual FIFO Depth = 513
+Time: 0 ps  Iteration: 0
+Note:  DEPTH = 512 WIDTH = 72 C_RD_PRIM_WIDTH = 72 C_RD_PRIM_DEPTH = 512 DEEP = 1 WIDE = 1
+Time: 0 ps  Iteration: 0
+Note: Actual FIFO Depth = 513
+Time: 0 ps  Iteration: 0
+Note:  DEPTH = 512 WIDTH = 72 C_RD_PRIM_WIDTH = 72 C_RD_PRIM_DEPTH = 512 DEEP = 1 WIDE = 1
+Time: 0 ps  Iteration: 0
+[5000] init WBUF/XT for reuse hierarchy...
+[5000] init done
+[35000] Tile start accepted
+[101000] Tile start accepted
+[167000] Tile start accepted
+[327000] PASS reuse top basic gate outputs got_s=3 got_y=3
+$finish called at time : 327 ns : File "D:/Mamba/hardware_reconstruct/tb/tb_reuse_top_mac_plus_bias_fifo_sigmoid_ew_gate.sv" Line 287
